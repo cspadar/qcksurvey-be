@@ -10,22 +10,22 @@ export class SurveyController {
   constructor(private readonly surveyService: SurveyService) { }
 
   @Post()
-  create(@Body() createSurveyDto: CreateSurveyDto, @User() user) {
-    return this.surveyService.create(createSurveyDto, user.id);
+  create(@Body() createSurveyDto: CreateSurveyDto, @User("id") userId) {
+    return this.surveyService.create(createSurveyDto, userId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string, @User() user) {
-    return this.surveyService.findOne(id, user.id);
+  findOne(@Param('id') id: string, @User("id") userId) {
+    return this.surveyService.findOne(id, userId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSurveyDto: Partial<CreateSurveyDto>, @User() user) {
-    return this.surveyService.update(id, updateSurveyDto, user.id);
+  update(@Param('id') id: string, @Body() updateSurveyDto: Partial<CreateSurveyDto>, @User("id") userId) {
+    return this.surveyService.update(id, updateSurveyDto, userId);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @User() user) {
-    return this.surveyService.remove(id, user.id);
+  remove(@Param('id') id: string, @User("id") userId) {
+    return this.surveyService.remove(id, userId);
   }
 }
