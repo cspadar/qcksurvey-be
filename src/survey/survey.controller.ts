@@ -19,6 +19,11 @@ export class SurveyController {
     return this.surveyService.findOne(id, userId);
   }
 
+  @Get()
+  findAllMine(@User("id") userId) {
+    return this.surveyService.findAllMine(userId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSurveyDto: Partial<CreateSurveyDto>, @User("id") userId) {
     return this.surveyService.update(id, updateSurveyDto, userId);

@@ -33,6 +33,15 @@ export class SurveyService {
     }
   }
 
+  async findAllMine(userId: string) {
+    try {
+      const surveys = await this.prisma.survey.findMany({ where: { createdBy: userId } });
+      return surveys;
+    } catch (e) {
+      return new BadRequestException({ msg: "Database error" })
+    }
+  }
+
   async update(id: string, data: Partial<CreateSurveyDto>, userId: string) {
     try {
       const survey = await this.prisma.survey.findUnique({ where: { id: id } });
