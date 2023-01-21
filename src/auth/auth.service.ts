@@ -39,7 +39,8 @@ export class AuthService {
             throw new ForbiddenException('Wrong password!')
         }
 
-        return this.signToken(user.id, user.email);
+        const token = await this.signToken(user.id, user.email);
+        return { ...token, email: user.email }
     }
 
     async signToken(userId: string, email: string): Promise<{ access_token: string }> {
