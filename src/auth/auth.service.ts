@@ -38,7 +38,6 @@ export class AuthService {
         if (!pwMatch) {
             throw new ForbiddenException('Wrong password!')
         }
-
         return this.signToken(user.id, user.email);
     }
 
