@@ -9,12 +9,19 @@ export class SurveyService {
 
   }
   async create(data: CreateSurveyDto, userId: string) {
+
     try {
       const survey = await this.prisma.survey.create({
-        data: { ...data, createdBy: userId }
+        data: {
+          title: data.title,
+          status: data.status,
+          createdBy: userId,
+          questions: { create: data.questions }
+        },
       });
       return survey;
     } catch (e) {
+      console.log(e);
       throw new BadRequestException({ msg: "Database error" })
     }
   }
@@ -51,7 +58,17 @@ export class SurveyService {
         return new UnauthorizedException({ msg: "This survey doesn't belong to you!" });
       }
 
-      const updated = await this.prisma.survey.update({ where: { id }, data });
+      const updated = await this.prisma.survey.update({
+        where: { id },
+        data: { title: data.title }
+      });
+
+      if (data.questions) {
+        this.prisma.$transaction([
+          this.prisma.question.deleteMany({ where: { id: id } }),
+          this.prisma.question.createMany({ data: data.questions }),
+        ]);
+      };
 
       return updated;
     } catch (e) {

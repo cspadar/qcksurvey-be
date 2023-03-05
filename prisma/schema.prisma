@@ -35,7 +35,8 @@ model Question {
   updatedAt   DateTime     @updatedAt
   type        QuestionType
   surveyId    String
-  preferences Json
+  preferences Json?
+  title       String
   optional    Boolean      @default(true)
   survey      Survey       @relation(fields: [surveyId], references: [id])
   no          Int
