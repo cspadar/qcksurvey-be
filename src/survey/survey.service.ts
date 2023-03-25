@@ -21,7 +21,10 @@ export class SurveyService {
   }
 
   async findOne(id: string, userId: string) {
-    const survey = await this.prisma.survey.findUnique({ where: { id: id } });
+    const survey = await this.prisma.survey.findUnique({
+      where: { id: id },
+      include: { questions: true }
+    });
     if (!survey) throw new NotFoundException("Survey not found!");
     if (survey.createdBy !== userId && survey.status === SurveyStatus.PRIVATE) {
       // TODO: Check if survey is shared with the current user
