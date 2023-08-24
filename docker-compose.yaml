@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: qcksurvey
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
